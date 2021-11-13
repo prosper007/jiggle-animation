@@ -22,21 +22,21 @@ interface ControlConfig {
 export default function Take2() {
   const configList = Object.keys(config) as ConfigOptions[];
   const ref = useRef<HTMLDivElement>(null);
-  const [xys, set] = useState([0, 0, 1]);
+  const [xys, setXys] = useState([0, 0, 1]);
   const { preset } = useControls<Record<ControlOptions, ControlConfig>, Record<ControlOptions, ControlConfig>, Record<ControlOptions, ControlConfig>>({
     preset: { value: "default", options: configList }
   });
-  const props = useSpring({ xys, config: config[preset] });
+  const { xys: xysSpring } = useSpring({ xys, config: config[preset] });
   return (
     <div className="ccard-main" ref={ref}>
       <animated.div
         className="ccard"
-        style={{ transform: props.xys.to(trans) }}
-        onMouseLeave={() => set([0, 0, 1])}
+        style={{ transform: xysSpring.to(trans) }}
+        onMouseLeave={() => setXys([0, 0, 1])}
         onMouseMove={(e) => {
           if (ref.current) {
             const rect = ref.current.getBoundingClientRect();
-            set(calc(e.clientX, e.clientY, rect));
+            setXys(calc(e.clientX, e.clientY, rect));
           }
         }}
       />
