@@ -22,20 +22,22 @@ const Take1 = () => {
     }
   }
   const AnimatedPaper = animated(Paper);
+  const [flipFadeIn, setFlipFadeIn] = useState(false);
   const springProps = useSpring({
-    // to: { opacity: 1 },
-    // from: { opacity: 0 },
+    to: { opacity: 1 },
+    from: { opacity: 0 },
+    config: config.slow,
     delay: 200,
     loop: { reverse: true },
   });
-  const [flip, set] = useState(false)
+  const [flipNum, setNum] = useState(false);
   const { number } = useSpring({
     reset: true,
-    reverse: flip,
+    reverse: flipNum,
     from: { number: 0 },
     number: 1,
     config: config.molasses,
-    onRest: () => set(!flip),
+    onRest: () => setNum(!flipNum),
   })
   return (
     <Grid container sx={classes.containerRoot}>
