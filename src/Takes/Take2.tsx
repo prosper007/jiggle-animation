@@ -36,10 +36,6 @@ export default function Take2() {
         onMouseMove={(e) => {
           if (ref.current) {
             const rect = ref.current?.getBoundingClientRect();
-            console.log(e.clientX);
-            console.log(e.clientY);
-            console.log(rect);
-            console.log(calc(e.clientX, e.clientY, rect))
             setXys(calc(e.clientX, e.clientY, rect));
           }
         }}

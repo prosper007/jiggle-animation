@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Grid, Paper } from "@mui/material";
 import { useSpring, animated, config } from "react-spring";
 
+const AnimatedPaper = animated(Paper);
+
 const Take1 = () => {
   const classes = {
     containerRoot: {
@@ -21,15 +23,7 @@ const Take1 = () => {
       backgroundColor: "pink",
     }
   }
-  const AnimatedPaper = animated(Paper);
-  const [flipFadeIn, setFlipFadeIn] = useState(false);
-  const springProps = useSpring({
-    to: { opacity: 1 },
-    from: { opacity: 0 },
-    config: config.slow,
-    delay: 200,
-    loop: { reverse: true },
-  });
+
   const [flipNum, setNum] = useState(false);
   const { number } = useSpring({
     reset: true,
@@ -39,9 +33,15 @@ const Take1 = () => {
     config: config.molasses,
     onRest: () => setNum(!flipNum),
   })
+  const springProps = useSpring({
+    opacity: number.to(number => number + 0.1),
+    config: config.slow,
+    delay: 200,
+    loop: { reverse: true },
+  });
+
   return (
     <Grid container sx={classes.containerRoot}>
-      {/* <animated.div style={springProps}> */}
       <AnimatedPaper
         elevation={3}
         sx={classes.paperRoot}
@@ -49,7 +49,6 @@ const Take1 = () => {
       >
         {number.to(n => n.toFixed(2))}
       </AnimatedPaper>
-      {/* </animated.div> */}
     </Grid>
   );
 }
