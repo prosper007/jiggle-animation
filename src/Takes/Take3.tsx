@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSpring, animated, config } from "@react-spring/web";
+import { useSpring, animated, config, easings } from "@react-spring/web";
 import { useControls } from "leva";
 import { Box } from "@mui/material";
 
@@ -20,11 +20,12 @@ export default function Take3() {
   const styles = useSpring({
     // loop: { reverse: true },
     reverse: flip,
-    from: { x: -600 },
-    to: { x: 600 },
+    from: { x: -60 },
+    to: { x: 60 },
     onRest: () => setFlip(!flip),
     // config: config[preset]
-    config: { tension: 10, friction: 10, mass: 1,  }
+    // config: { tension: 10, friction: 10, mass: 1,  }
+    config: { duration: 500, easing: easings.easeInOutElastic }
   })
 
 
@@ -42,7 +43,7 @@ export default function Take3() {
         style={{
           ...styles,
           width: "20ch",
-          height: "20ch",
+          height: "4em",
           background: "hotpink",
           borderRadius: "5px",
           transition: "box-shadow 0.5s",
