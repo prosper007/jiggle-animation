@@ -20,10 +20,11 @@ export default function Take3() {
   const styles = useSpring({
     // loop: { reverse: true },
     reverse: flip,
-    from: { x: -500 },
-    to: { x: 500 },
+    from: { x: -600 },
+    to: { x: 600 },
     onRest: () => setFlip(!flip),
-    config: config[preset]
+    // config: config[preset]
+    config: { tension: 10, friction: 10, mass: 1,  }
   })
 
 
