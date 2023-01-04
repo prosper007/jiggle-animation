@@ -17,16 +17,23 @@ export default function Take3() {
     preset: { value: "default", options: configList }
   });
   const [flip, setFlip] = useState(false);
-  const styles = useSpring({
-    // loop: { reverse: true },
-    reverse: flip,
-    from: { x: -60 },
-    to: { x: 60 },
-    onRest: () => setFlip(!flip),
+  const [styles, api] = useSpring(() => ({
+    // reverse: flip,
+    from: { x: 0 },
+    // to: { x: 60 },
+    // onRest: () => setFlip(!flip),
     // config: config[preset]
     // config: { tension: 10, friction: 10, mass: 1,  }
-    config: { duration: 500, easing: easings.easeInOutElastic }
-  })
+    // config: { duration: 500, easing: easings.easeInOutElastic }
+  }))
+
+  const handleClick = () => {
+    api.start({
+      from: { x: 0 },
+      to: [{ x: 60 }, { x: -60 }],
+      loop: { from: { x: -60 } },
+    })
+  }
 
 
   return (
@@ -42,13 +49,14 @@ export default function Take3() {
       <animated.div
         style={{
           ...styles,
-          width: "20ch",
+          width: "5em",
           height: "4em",
           background: "hotpink",
           borderRadius: "5px",
           transition: "box-shadow 0.5s",
           willChange: "transform",
         }}
+        onClick={handleClick}
       // style={{ transform: xPosSpring.to(trans) }}
       />
     </Box>
