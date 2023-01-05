@@ -17,6 +17,7 @@ export default function Take3() {
     preset: { value: "default", options: configList }
   });
   const [animate, setAnimate] = useState(false);
+  const [numOscill, setNumOscill] = useState(0);
   const [styles, api] = useSpring(() => ({
     from: { x: 0 },
     // config: { tension: 10, friction: 10, mass: 1,  }
@@ -27,17 +28,32 @@ export default function Take3() {
     setAnimate(!animate)
   }
 
+  // desired number of oscillations is actually three 
+  // but it does one extra oscillation before actually stopping animation
+  const desiredOscill = 2;
+
   useEffect(() => {
     if (animate) {
+      const toArray = numOscill === desiredOscill ? [{ x: 80 }, { x: -80 }, { x: 0 }] : [{ x: 80 }, { x: -80 }]
+      const loopStart = numOscill === desiredOscill ? 0 : -80
       api.start({
-        to: [{ x: 80 }, { x: -80 }],
-        loop: { from: { x: -80 } },
-        config: config[preset]
+        to: toArray,
+        loop: { from: { x: loopStart } },
+        config: config[preset],
+        onRest: () => {
+          if (numOscill === desiredOscill) {
+            setAnimate(false)
+            setNumOscill(0)
+          } else {
+            setNumOscill(numOscill + 1)
+          }
+
+        }
       })
     } else {
       api.stop()
     }
-  }, [animate, api, preset])
+  }, [animate, api, preset, numOscill])
 
 
   return (
