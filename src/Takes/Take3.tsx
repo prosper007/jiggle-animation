@@ -40,7 +40,7 @@ export default function Take3() {
       api.start({
         to: toArray,
         loop: { from: { x: loopStart } },
-        config: { duration: 60, easing: easings.easeOutQuart },
+        config: { duration: 60, easing: easings.easeInQuart },
         onRest: () => {
           if (numOscill === desiredOscill) {
             setAnimate(false)
@@ -65,7 +65,6 @@ export default function Take3() {
       alignItems: "center",
       justifyContent: "center",
       overflow: "hidden",
-      padding: 2,
       background: "linear-gradient(27deg, rgba(18, 39, 154, 1) 0%, rgba(158, 64, 117, 1) 45%, rgba(176, 36, 197, 0.986453956582633) 100%)"
     }}>
       <animated.div
