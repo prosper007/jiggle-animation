@@ -20,8 +20,6 @@ export default function Take3() {
   const [numOscill, setNumOscill] = useState(0);
   const [styles, api] = useSpring(() => ({
     from: { x: 0 },
-    // config: { tension: 10, friction: 10, mass: 1,  }
-    // config: { duration: 500, easing: easings.easeInOutElastic }
   }))
 
   const handleClick = () => {
@@ -31,15 +29,18 @@ export default function Take3() {
   // desired number of oscillations is actually three 
   // but it does one extra oscillation before actually stopping animation
   const desiredOscill = 2;
+  const travelLength = 20;
 
   useEffect(() => {
     if (animate) {
-      const toArray = numOscill === desiredOscill ? [{ x: 80 }, { x: -80 }, { x: 0 }] : [{ x: 80 }, { x: -80 }]
-      const loopStart = numOscill === desiredOscill ? 0 : -80
+      const toArray = numOscill === desiredOscill
+        ? [{ x: travelLength }, { x: -travelLength }, { x: 0 }]
+        : [{ x: travelLength }, { x: -travelLength }]
+      const loopStart = numOscill === desiredOscill ? 0 : -travelLength
       api.start({
         to: toArray,
         loop: { from: { x: loopStart } },
-        config: config[preset],
+        config: { duration: 60, easing: easings.easeOutQuart },
         onRest: () => {
           if (numOscill === desiredOscill) {
             setAnimate(false)
@@ -65,14 +66,15 @@ export default function Take3() {
       justifyContent: "center",
       overflow: "hidden",
       padding: 2,
+      background: "linear-gradient(27deg, rgba(18, 39, 154, 1) 0%, rgba(158, 64, 117, 1) 45%, rgba(176, 36, 197, 0.986453956582633) 100%)"
     }}>
       <animated.div
         style={{
           ...styles,
-          width: "5em",
-          height: "4em",
-          background: "hotpink",
-          borderRadius: "5px",
+          width: "10em",
+          height: "2em",
+          background: "rgb(200, 130, 184, 0.76)",
+          borderRadius: "20px",
           transition: "box-shadow 0.5s",
           willChange: "transform",
           cursor: "pointer"
